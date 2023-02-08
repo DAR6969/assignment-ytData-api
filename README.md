@@ -1,4 +1,4 @@
-﻿# assignment-ytData-api
+﻿# Youtube API assignment - Backend
 
 "npm run devStart" to run server on server.js file.
 
