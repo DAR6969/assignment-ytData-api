@@ -25,12 +25,18 @@ db.once('open', async ()=>{
 // API endpoint. the API call can be found in the request.rest file: 
 // Do install a REST Client in youe code IDE to easily check responses from databse function
 // GET http://localhost:3000/videos?page=2&limit=6
-app.get('/videos', paginatedResults(Video), (req,res)=>{
+app.get('/videos', (req,res)=>{
+    let result = paginatedResults(Video, req);
+    while(result.length === 0)  
+    result = paginatedResults
+    // while(res.paginatedResults.length === 0) {
+    //     res.paginatedResults = paginatedResults(Video);
+    // }
     res.json(res.paginatedResults)
 })
 
 /* this function gives sliced results based on parameters from the request */
-function paginatedResults(model){
+function paginatedResults(model, req){
     return async (req,res, next)=>{
         const page = parseInt(req.query.page)
     const limit = req.query.limit
@@ -66,7 +72,7 @@ function paginatedResults(model){
    feature. This is called in the DB code above and the data is stored in the database*/
 
 function youtubeCall(){
-
+    let count = 0
     let next_token = ''
 
     setInterval(() => {
@@ -85,8 +91,10 @@ function youtubeCall(){
                 console.log(`Title: ${item.snippet.title}\nDescription: ${item.snippet.description}\n`)
                 Video.create({name:item.snippet.title, 
                     description:item.snippet.description, 
-                    thumbUrl: item.snippet.thumbnails.default.url})
-                
+                    thumbUrl: item.snippet.thumbnails.default.url,
+                    pageno: Math.floor((count/10)) + 1
+                })
+                ++count
             })
         }).catch((err)=> console.log(err))
     }, 10000);

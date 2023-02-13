@@ -1,1 +1,1 @@
-GET http://localhost:3000/videos?page=2&limit=6
+GET http://localhost:3000/videos?page=2x&limit=6

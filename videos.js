@@ -14,6 +14,12 @@ const videoSchema = new mongoose.Schema({
     thumbUrl:{
         type: String,
         required: true
+    },
+    pageno:{
+        type: Number,
+        index: true,
+        required: true
+        
     }
 })
 
