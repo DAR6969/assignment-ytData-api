@@ -17,7 +17,7 @@ const videoSchema = new mongoose.Schema({
     },
     pageno:{
         type: Number,
-        index: true,
+        index: true, //indexing based on page number property
         required: true
         
     }
