@@ -15,8 +15,7 @@ Youtube Data api are stored */
 mongoose.connect('mongodb://localhost/pagination')
 const db = mongoose.connection
 db.once('open', async ()=>{
-    db.dropDatabase()
-    if(await Video.countDocuments().exec() > 0) return
+    if(await Video.countDocuments().exec() > 0) db.dropDatabase()
 
     console.log("db update")
     youtubeCall()
@@ -25,13 +24,7 @@ db.once('open', async ()=>{
 // API endpoint. the API call can be found in the request.rest file: 
 // Do install a REST Client in youe code IDE to easily check responses from databse function
 // GET http://localhost:3000/videos?page=2&limit=6
-app.get('/videos', (req,res)=>{
-    let result = paginatedResults(Video, req);
-    while(result.length === 0)  
-    result = paginatedResults
-    // while(res.paginatedResults.length === 0) {
-    //     res.paginatedResults = paginatedResults(Video);
-    // }
+app.get('/videos', paginatedResults(Video), (req,res)=>{
     res.json(res.paginatedResults)
 })
 
